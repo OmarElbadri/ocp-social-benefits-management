@@ -25,10 +25,8 @@ Employees at OCP Group are entitled to a range of family-oriented social benefit
 ├── app.py # App entry point, blueprint registration, DB schema init
 ├── models/
 │ ├── db.py # MySQL connection pooling
-| └── __init__.py
 ├── routes/
 │ ├── auth.py # Login / JWT authentication
-| ├── __init__.py
 │ ├── employes.py # Employee records
 │ ├── conjoints.py # Spouse records
 │ ├── enfants.py # Children records
