@@ -1,0 +1,881 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCP Avantages Sociaux</title>
+  <link rel="icon" type="image/png" href="https://www.prestige.ma/assets/images/r%C3%A9f%C3%A9rences/6.png">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- ════ LOGIN ════ -->
+<div id="loginScreen">
+  <div class="login-orbs">
+    <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  </div>
+  <div class="login-noise"></div>
+  <div class="login-split">
+    <div class="login-left">
+      <div class="login-tagline">Gérez les <em>avantages sociaux</em> OCP avec efficacité</div>
+      <div class="login-desc">Plateforme complète de gestion des excursions, camps d'été et activités pour les employés OCP Group et leurs familles.</div>
+      <div class="login-features">
+        <div class="login-feat"><div class="login-feat-icon"><i class="fas fa-calendar-days"></i></div>Organisation des excursions familles et enfants</div>
+        <div class="login-feat"><div class="login-feat-icon"><i class="fas fa-campground"></i></div>Gestion des camps d'été avec groupes intelligents</div>
+        <div class="login-feat"><div class="login-feat-icon"><i class="fas fa-list-check"></i></div>Historique de participation et règles métier</div>
+        <div class="login-feat"><div class="login-feat-icon"><i class="fas fa-chart-pie"></i></div>Exports et rapports pour le service social</div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-card">
+        <div class="login-logo">
+          <div class="login-logo-mark">
+            <img src="https://www.prestige.ma/assets/images/r%C3%A9f%C3%A9rences/6.png" alt="OCP" style="width:72px;height:72px;object-fit:contain;border-radius:20px">
+          </div>
+          <div class="login-logo-text"><h1>OCP Social</h1><p>Avantages Sociaux</p></div>
+        </div>
+        <div class="login-h">Connexion</div>
+        <div class="login-sub">Accédez à votre espace de gestion</div>
+        <div class="field">
+          <label class="field-label">Adresse e-mail</label>
+          <div class="field-wrap">
+            <i class="fas fa-envelope field-icon"></i>
+            <input id="loginEmail" type="email" class="field-input" placeholder="exemple@ocp.ma" autocomplete="off">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Mot de passe</label>
+          <div class="field-wrap">
+            <i class="fas fa-lock field-icon"></i>
+            <input id="loginPwd" type="password" class="field-input" placeholder="••••••••" autocomplete="new-password">
+          </div>
+        </div>
+        <button type="button" class="login-btn" onclick="handleLogin()">
+          <i class="fas fa-sign-in-alt"></i> Se connecter
+        </button>
+        <div class="login-err" id="loginErr"><i class="fas fa-circle-xmark"></i> Identifiants incorrects.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ APP SHELL ════ -->
+<div id="appShell" style="display:none;">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+  <!-- Brand -->
+  <div class="sb-brand">
+    <img class="sb-logo" src="https://www.prestige.ma/assets/images/r%C3%A9f%C3%A9rences/6.png" alt="OCP">
+    <div class="sb-brand-text">
+      <div class="sb-name">OCP Social</div>
+      <div class="sb-sub">Avantages Sociaux</div>
+    </div>
+  </div>
+
+  <div class="sb-divider"></div>
+
+  <!-- Nav -->
+  <nav class="sb-nav">
+    <div class="sb-group">
+      <div class="sb-section">Tableau de bord</div>
+      <div class="nav-link active" onclick="showSection('dashboard', this)">
+        <span class="nav-ico"><i class="fas fa-chart-pie"></i></span><span>Vue d'ensemble</span>
+      </div>
+    </div>
+
+    <div class="sb-group">
+      <div class="sb-section">Personnel OCP</div>
+      <div class="nav-link" onclick="showSection('employes', this)">
+        <span class="nav-ico"><i class="fas fa-id-badge"></i></span><span>Employés</span>
+      </div>
+      <div class="nav-link" onclick="showSection('conjoints', this)">
+        <span class="nav-ico"><i class="fas fa-people-arrows"></i></span><span>Conjoints</span>
+      </div>
+      <div class="nav-link" onclick="showSection('enfants', this)">
+        <span class="nav-ico"><i class="fas fa-child"></i></span><span>Enfants</span>
+      </div>
+    </div>
+
+    <div class="sb-group">
+      <div class="sb-section">Activités</div>
+      <div class="nav-link" onclick="showSection('excursions', this)">
+        <span class="nav-ico"><i class="fas fa-bus"></i></span><span>Excursions</span>
+      </div>
+      <div class="nav-link" onclick="showSection('camps', this)">
+        <span class="nav-ico"><i class="fas fa-campground"></i></span><span>Camps d'été</span>
+      </div>
+      <div class="nav-link" onclick="showSection('encadrants', this)">
+        <span class="nav-ico"><i class="fas fa-person-chalkboard"></i></span><span>Encadrants</span>
+      </div>
+    </div>
+
+    <div class="sb-group">
+      <div class="sb-section">Administration</div>
+      <div class="nav-link" onclick="showSection('utilisateurs', this)">
+        <span class="nav-ico"><i class="fas fa-user-shield"></i></span><span>Utilisateurs</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Bottom logout -->
+  <div class="sb-bottom">
+    <button class="sb-logout-btn" onclick="doLogout()">
+      <i class="fas fa-right-from-bracket"></i> Déconnexion
+    </button>
+  </div>
+
+</aside>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="tb-left">
+    <div class="tb-icon" id="topbarIcon"><i class="fas fa-chart-pie"></i></div>
+    <div class="tb-title-wrap">
+      <div class="tb-title" id="topbarTitle">Vue d'ensemble</div>
+      <div class="tb-breadcrumb">OCP Social</div>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <div class="tb-search">
+      <i class="fas fa-magnifying-glass"></i>
+      <input id="globalSearchInput" placeholder="Rechercher employé, conjoint, enfant, excursion, camp…" oninput="searchAll(this.value)" onkeydown="searchKeyNav(event)" autocomplete="off">
+      <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none" title="Effacer"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+
+  <div class="tb-right">
+
+    <div class="tb-user-pill">
+      <div class="tb-user-av" id="topbarAv">A</div>
+      <div class="tb-user-info">
+        <div class="tb-user-name" id="topbarName">Admin OCP</div>
+        <div class="tb-user-role" id="topbarRole">Administrateur</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══ DASHBOARD ══ -->
+<section class="section active" id="sec-dashboard">
+
+  <!-- Banner -->
+  <div class="dash-banner">
+    <div class="dash-banner-bg"></div>
+    <div class="dash-banner-content">
+      <div>
+        <div class="dash-banner-title">Bienvenue, <span id="dash-user-name">Administrateur</span></div>
+        <div class="dash-banner-sub"><i class="fas fa-sun"></i> Saison Été 2026 — Plateforme Avantages Sociaux OCP</div>
+      </div>
+      <div class="dash-banner-date" id="dash-date"></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="dash-section-title">Aperçu global</div>
+  <div class="dash-stats-grid">
+    <div class="dsc dsc-green" onclick="showSection('employes', document.querySelector('.nav-link[onclick*=\'employes\']'))">
+      <i class="fas fa-id-badge dsc-bg-icon"></i>
+      <div class="dsc-num" id="dash-employes">0</div>
+      <div class="dsc-label">Employés</div>
+      <div class="dsc-sub">Personnel OCP enregistré</div>
+      <div class="dsc-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+    <div class="dsc dsc-pink" onclick="showSection('conjoints', document.querySelector('.nav-link[onclick*=\'conjoints\']'))">
+      <i class="fas fa-people-arrows dsc-bg-icon"></i>
+      <div class="dsc-num" id="dash-conjoints">0</div>
+      <div class="dsc-label">Conjoints</div>
+      <div class="dsc-sub">Époux/épouses enregistrés</div>
+      <div class="dsc-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+    <div class="dsc dsc-gold" onclick="showSection('enfants', document.querySelector('.nav-link[onclick*=\'enfants\']'))">
+      <i class="fas fa-child dsc-bg-icon"></i>
+      <div class="dsc-num" id="dash-enfants">0</div>
+      <div class="dsc-label">Enfants</div>
+      <div class="dsc-sub">Enfants des employés</div>
+      <div class="dsc-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+    <div class="dsc dsc-blue" onclick="showSection('excursions', document.querySelector('.nav-link[onclick*=\'excursions\']'))">
+      <i class="fas fa-bus dsc-bg-icon"></i>
+      <div class="dsc-num" id="dash-excursions">0</div>
+      <div class="dsc-label">Excursions</div>
+      <div class="dsc-sub">Sorties organisées</div>
+      <div class="dsc-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+    <div class="dsc dsc-teal" onclick="showSection('camps', document.querySelector('.nav-link[onclick*=\'camps\']'))">
+      <i class="fas fa-campground dsc-bg-icon"></i>
+      <div class="dsc-num" id="dash-camps">0</div>
+      <div class="dsc-label">Camps d'Été</div>
+      <div class="dsc-sub">Séjours de vacances</div>
+      <div class="dsc-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+    <div class="dsc dsc-slate" onclick="showSection('encadrants', document.querySelector('.nav-link[onclick*=\'encadrants\']'))">
+      <i class="fas fa-chalkboard-teacher dsc-bg-icon"></i>
+      <div class="dsc-num" id="dash-encadrants">0</div>
+      <div class="dsc-label">Encadrants</div>
+      <div class="dsc-sub">Équipe d'encadrement</div>
+      <div class="dsc-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="dash-section-title">Accès rapide</div>
+  <div class="dash-quick-grid">
+    <div class="dq" onclick="showSection('employes', document.querySelector('.nav-link[onclick*=\'employes\']')); setTimeout(()=>openAddEmploye(),300)">
+      <i class="fas fa-user-plus"></i><span>Ajouter un Employé</span>
+    </div>
+    <div class="dq" onclick="showSection('conjoints', document.querySelector('.nav-link[onclick*=\'conjoints\']')); setTimeout(()=>openAddConjoint(),300)">
+      <i class="fas fa-heart"></i><span>Ajouter un Conjoint</span>
+    </div>
+    <div class="dq" onclick="showSection('enfants', document.querySelector('.nav-link[onclick*=\'enfants\']')); setTimeout(()=>openModal('addEnfant'),300)">
+      <i class="fas fa-child"></i><span>Ajouter un Enfant</span>
+    </div>
+    <div class="dq admin-only" onclick="showSection('excursions', document.querySelector('.nav-link[onclick*=\'excursions\']')); setTimeout(()=>openAddExcursion(),300)">
+      <i class="fas fa-bus"></i><span>Nouvelle Excursion</span>
+    </div>
+    <div class="dq admin-only" onclick="showSection('camps', document.querySelector('.nav-link[onclick*=\'camps\']')); setTimeout(()=>openAddCamp(),300)">
+      <i class="fas fa-campground"></i><span>Nouveau Camp</span>
+    </div>
+    <div class="dq" onclick="showSection('encadrants', document.querySelector('.nav-link[onclick*=\'encadrants\']')); setTimeout(()=>openAddEncadrant(),300)">
+      <i class="fas fa-id-card"></i><span>Nouvel Encadrant</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ EMPLOYÉS ══ -->
+<section class="section" id="sec-employes">
+  <div class="page-head">
+    <div class="page-head-left"><h2>Gestion des Employés</h2><p id="employes-count">Chargement…</p></div>
+    <div class="page-head-right">
+      <button class="btn btn-primary" onclick="openAddEmploye()"><i class="fas fa-plus"></i> Ajouter Employé</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="filter-bar">
+      <div class="filter-input-wrap"><i class="fas fa-magnifying-glass"></i><input placeholder="Rechercher…" oninput="filterSection('employesTable', this.value)"></div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Employé</th><th>Email</th><th>Poste</th><th>Sexe</th><th>Conjoints</th><th>Enfants</th><th>Actions</th></tr></thead>
+        <tbody id="employesTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination"><span class="pag-info" id="employes-pag"></span></div>
+  </div>
+</section>
+
+<!-- ══ CONJOINTS ══ -->
+<section class="section" id="sec-conjoints">
+  <div class="page-head">
+    <div class="page-head-left"><h2>Gestion des Conjoints</h2><p id="conjoints-count">Chargement…</p></div>
+    <div class="page-head-right">
+      <button class="btn btn-primary" onclick="openAddConjoint()"><i class="fas fa-plus"></i> Ajouter Conjoint(e)</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="filter-bar">
+      <div class="filter-input-wrap"><i class="fas fa-magnifying-glass"></i><input placeholder="Rechercher…" oninput="filterSection('conjointsTable', this.value)"></div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Conjoint(e)</th><th>Sexe</th><th>Employé</th><th>Email</th><th>Actions</th></tr></thead>
+        <tbody id="conjointsTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination"><span class="pag-info" id="conjoints-pag"></span></div>
+  </div>
+</section>
+
+<!-- ══ ENFANTS ══ -->
+<section class="section" id="sec-enfants">
+  <div class="page-head">
+    <div class="page-head-left"><h2>Gestion des Enfants</h2><p id="enfants-count">Chargement…</p></div>
+    <div class="page-head-right">
+      <button class="btn btn-primary" onclick="openAddEnfant()"><i class="fas fa-plus"></i> Ajouter Enfant</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="filter-bar">
+      <div class="filter-input-wrap"><i class="fas fa-magnifying-glass"></i><input placeholder="Nom de l'enfant…" oninput="filterSection('enfantsTable', this.value)"></div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Enfant</th><th>Âge</th><th>Genre</th><th>Parent</th><th>Actions</th></tr></thead>
+        <tbody id="enfantsTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination"><span class="pag-info" id="enfants-pag"></span></div>
+  </div>
+</section>
+
+<!-- ══ EXCURSIONS ══ -->
+<section class="section" id="sec-excursions">
+  <div class="page-head">
+    <div class="page-head-left"><h2>Gestion des Excursions</h2><p id="excursions-count">Chargement…</p></div>
+    <div class="page-head-right">
+      <button id="btn-add-excursion" class="btn btn-primary" onclick="openAddExcursion()"><i class="fas fa-plus"></i> Nouvelle Excursion</button>
+    </div>
+  </div>
+  <div class="grid-filter-wrap">
+    <div class="filter-input-wrap" style="border:none;padding:0;flex:1"><i class="fas fa-magnifying-glass"></i><input placeholder="Rechercher une excursion, ville, date…" oninput="filterGrid('excursionsGrid', this.value)"></div>
+  </div>
+  <div class="exc-grid" id="excursionsGrid"></div>
+</section>
+
+<!-- ══ CAMPS ══ -->
+<section class="section" id="sec-camps">
+  <div class="page-head">
+    <div class="page-head-left"><h2>Camps d'Été</h2><p id="camps-count">Chargement…</p></div>
+    <div class="page-head-right">
+      <button id="btn-add-camp" class="btn btn-primary" onclick="openAddCamp()"><i class="fas fa-plus"></i> Nouveau Camp</button>
+    </div>
+  </div>
+  <div class="grid-filter-wrap">
+    <div class="filter-input-wrap" style="border:none;padding:0;flex:1"><i class="fas fa-magnifying-glass"></i><input placeholder="Rechercher un camp, ville, destination…" oninput="filterGrid('campsGrid', this.value)"></div>
+  </div>
+  <div class="camp-grid" id="campsGrid"></div>
+</section>
+
+<!-- ══ ENCADRANTS ══ -->
+<section class="section" id="sec-encadrants">
+  <div class="page-head">
+    <div class="page-head-left">
+      <h2>Encadrants</h2>
+      <p id="encadrants-count">Chargement…</p>
+    </div>
+    <div class="page-head-right">
+      <button id="btn-add-encadrant" class="btn btn-primary" onclick="openAddEncadrant()"><i class="fas fa-plus"></i> Nouvel Encadrant</button>
+    </div>
+  </div>
+  <div class="grid-filter-wrap">
+    <div class="filter-input-wrap" style="border:none;padding:0;flex:1"><i class="fas fa-magnifying-glass"></i><input placeholder="Rechercher un encadrant, spécialité…" oninput="filterGrid('encadrantsGrid', this.value)"></div>
+  </div>
+  <div class="enc-grid" id="encadrantsGrid"></div>
+</section>
+
+<!-- ══ UTILISATEURS ══ -->
+<section class="section" id="sec-utilisateurs">
+  <div class="page-head">
+    <div class="page-head-left">
+      <h2>Utilisateurs système</h2>
+      <p id="users-count">Chargement…</p>
+    </div>
+    <div class="page-head-right">
+      <div class="usr-legend">
+        <span class="usr-legend-item">
+          <span class="usr-legend-ico usr-legend-admin"><i class="fas fa-shield-halved"></i></span>
+          Administrateur
+        </span>
+        <span class="usr-legend-item">
+          <span class="usr-legend-ico usr-legend-agent"><i class="fas fa-user-tie"></i></span>
+          Agent Social
+        </span>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('addUser')"><i class="fas fa-plus"></i> Ajouter</button>
+    </div>
+  </div>
+  <div class="grid-filter-wrap">
+    <div class="filter-input-wrap" style="border:none;padding:0;flex:1"><i class="fas fa-magnifying-glass"></i><input placeholder="Rechercher un utilisateur, rôle…" oninput="filterGrid('usersContainer', this.value)"></div>
+  </div>
+  <div class="user-grid" id="usersContainer"></div>
+</section>
+
+</main>
+</div><!-- /#appShell -->
+
+<!-- ════ TOAST ════ -->
+<div id="toast" style="display:none">
+  <i id="toastIco" class="fas fa-check-circle" style="font-size:16px;flex-shrink:0;color:var(--g300)"></i>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- ════ MODAL — ADD EMPLOYÉ ════ -->
+<div class="modal-overlay" id="modal-addEmploye">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-user-plus"></i> Ajouter un Employé</div>
+    <button class="modal-close" onclick="closeModal('addEmploye')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="emp-id">
+    <div class="form-group"><label class="form-label">Nom complet</label><input class="form-input" id="emp-nom" placeholder="Ahmed El Mansouri"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Sexe</label>
+        <select class="form-select" id="emp-sexe">
+          <option value="Homme">Homme</option>
+          <option value="Femme">Femme</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Matricule <span id="mat-auto-badge" class="mat-auto-badge" style="display:none"><i class="fas fa-wand-magic-sparkles"></i> Auto</span></label>
+        <input class="form-input" id="emp-matricule" placeholder="OCP-001">
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="emp-email" type="email" placeholder="ahmed@ocp.ma"></div>
+    <div class="form-group"><label class="form-label">Poste</label><input class="form-input" id="emp-poste" placeholder="Ingénieur"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addEmploye')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddEmploye()"><i class="fas fa-save"></i> Enregistrer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD / EDIT CONJOINT ════ -->
+<div class="modal-overlay" id="modal-addConjoint">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-people-arrows"></i> Ajouter un(e) Conjoint(e)</div>
+    <button class="modal-close" onclick="closeModal('addConjoint')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="cj-id">
+    <div class="form-group"><label class="form-label">Nom complet</label><input class="form-input" id="cj-nom" placeholder="Prénom Nom"></div>
+    <div class="form-group"><label class="form-label">Sexe</label>
+      <select class="form-select" id="cj-sexe">
+        <option value="Femme">Femme</option>
+        <option value="Homme">Homme</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="cj-email" type="email" placeholder="conjoint@gmail.com"></div>
+    <div class="form-group">
+      <label class="form-label">Matricule Employé</label>
+      <input class="form-input" id="cj-matricule" placeholder="OCP-001" autocomplete="off" oninput="lookupEmployeByMatricule()">
+      <div id="cj-employe-info" class="form-hint" style="min-height:18px"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addConjoint')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddConjoint()"><i class="fas fa-save"></i> Enregistrer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD ENFANT ════ -->
+<div class="modal-overlay" id="modal-addEnfant">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-child"></i> Ajouter un Enfant</div>
+    <button class="modal-close" onclick="closeModal('addEnfant')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="en-id">
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Nom</label><input class="form-input" id="en-nom" placeholder="Yassine"></div>
+      <div class="form-group"><label class="form-label">Âge</label><input class="form-input" id="en-age" type="number" min="4" max="18" placeholder="12"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Genre</label>
+      <select class="form-select" id="en-genre"><option value="Garçon">Garçon</option><option value="Fille">Fille</option></select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Matricule Employé (parent)</label>
+      <input class="form-input" id="en-matricule" placeholder="OCP-001" autocomplete="off" oninput="lookupEmployeEnfant()">
+      <div id="en-employe-info" class="form-hint" style="min-height:18px"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addEnfant')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddEnfant()"><i class="fas fa-save"></i> Enregistrer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD EXCURSION ════ -->
+<div class="modal-overlay" id="modal-addExcursion">
+<div class="modal">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-bus"></i> Nouvelle Excursion</div>
+    <button class="modal-close" onclick="closeModal('addExcursion')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="exc-id">
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Ville / Destination</label><input class="form-input" id="exc-ville" placeholder="Fès"></div>
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" id="exc-date" type="date"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Capacité max</label><input class="form-input" id="exc-capacite" type="number" placeholder="30"></div>
+      <div class="form-group"><label class="form-label">Type</label>
+        <select class="form-select" id="exc-type" onchange="toggleExcAgeFields()"><option value="Famille">Famille</option><option value="Enfants">Enfants uniquement</option><option value="Employe_Conjoint">Employé + Conjoint(e) / Célibataires</option></select>
+      </div>
+    </div>
+    <div id="exc-age-enfant-wrap" class="form-row">
+      <div class="form-group">
+        <label class="form-label">Âge min enfant <span style="color:var(--ink4);font-weight:400">(optionnel)</span></label>
+        <input class="form-input" id="exc-age-min" type="number" min="0" max="17" placeholder="ex: 6">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Âge max enfant <span style="color:var(--ink4);font-weight:400">(optionnel)</span></label>
+        <input class="form-input" id="exc-age-max" type="number" min="0" max="17" placeholder="ex: 14">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Heure départ</label><input class="form-input" id="exc-depart" type="time" value="08:00"></div>
+      <div class="form-group"><label class="form-label">Heure retour</label><input class="form-input" id="exc-retour" type="time" value="20:00"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addExcursion')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddExcursion()"><i class="fas fa-save"></i> Créer l'excursion</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD CAMP ════ -->
+<div class="modal-overlay" id="modal-addCamp">
+<div class="modal">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-campground"></i> Nouveau Camp d'Été</div>
+    <button class="modal-close" onclick="closeModal('addCamp')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="camp-id">
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Nom du camp</label><input class="form-input" id="camp-nom" placeholder="Camp Ifrane 2026"></div>
+      <div class="form-group"><label class="form-label">Ville destination</label><input class="form-input" id="camp-ville" placeholder="Ifrane"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Ville de départ</label><input class="form-input" id="camp-ville-depart" value="Khouribga" placeholder="Khouribga"></div>
+      <div class="form-group"><label class="form-label">Ville de retour</label><input class="form-input" id="camp-ville-retour" value="Khouribga" placeholder="Khouribga" readonly style="background:var(--g50);color:var(--ink3)"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date départ</label><input class="form-input" id="camp-debut" type="date"></div>
+      <div class="form-group"><label class="form-label">Date retour</label><input class="form-input" id="camp-fin" type="date"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Âge minimum</label><input class="form-input" id="camp-age-min" type="number" min="4" max="17" placeholder="8"></div>
+      <div class="form-group"><label class="form-label">Âge maximum</label><input class="form-input" id="camp-age-max" type="number" min="4" max="17" placeholder="14"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Capacité maximale</label><input class="form-input" id="camp-capacite" type="number" placeholder="50"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Heure départ</label><input class="form-input" id="camp-h-depart" type="time"></div>
+      <div class="form-group"><label class="form-label">Heure retour</label><input class="form-input" id="camp-h-retour" type="time"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addCamp')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddCamp()"><i class="fas fa-save"></i> Créer le camp</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD USER ════ -->
+<div class="modal-overlay" id="modal-addUser">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-user-plus"></i> Ajouter Utilisateur</div>
+    <button class="modal-close" onclick="closeModal('addUser')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group"><label class="form-label">Nom complet</label><input class="form-input" id="usr-nom" placeholder="Nom Prénom"></div>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="usr-email" type="email" placeholder="user@ocp.ma"></div>
+    <div class="form-group"><label class="form-label">Mot de passe</label><input class="form-input" id="usr-password" type="password" placeholder="••••••••"></div>
+    <div class="form-group"><label class="form-label">Rôle</label>
+      <select class="form-select" id="usr-role"><option value="agent">Agent Social</option><option value="admin">Administrateur</option></select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addUser')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddUser()"><i class="fas fa-save"></i> Créer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — EDIT USER ════ -->
+<div class="modal-overlay" id="modal-editUser">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-pen"></i> Modifier Utilisateur</div>
+    <button class="modal-close" onclick="closeModal('editUser')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="edit-usr-id">
+    <div class="form-group"><label class="form-label">Nom complet</label>
+      <input class="form-input" id="edit-usr-nom" placeholder="Nom Prénom"></div>
+    <div class="form-group"><label class="form-label">Email</label>
+      <input class="form-input" id="edit-usr-email" type="email" placeholder="user@ocp.ma"></div>
+    <div class="form-group"><label class="form-label">Nouveau mot de passe <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink4)">(laisser vide pour ne pas changer)</span></label>
+      <input class="form-input" id="edit-usr-pwd" type="password" placeholder="••••••••" autocomplete="new-password"></div>
+    <div class="form-group" id="edit-usr-role-wrap"><label class="form-label">Rôle</label>
+      <select class="form-select" id="edit-usr-role">
+        <option value="agent">Agent Social</option>
+        <option value="admin">Administrateur</option>
+      </select>
+    </div>
+    <div class="form-group" id="edit-usr-role-display" style="display:none">
+      <label class="form-label">Rôle</label>
+      <div class="form-input" style="color:var(--ink3);background:var(--slate);cursor:default"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('editUser')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitEditUser()"><i class="fas fa-floppy-disk"></i> Sauvegarder</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — CONFIRM DELETE ════ -->
+<div class="modal-overlay" id="modal-confirmDel">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title" style="color:var(--red)"><i class="fas fa-triangle-exclamation"></i> Confirmer la suppression</div>
+    <button class="modal-close" onclick="closeModal('confirmDel')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-danger"><i class="fas fa-ban"></i><div id="delMsg">Êtes-vous sûr de vouloir supprimer cet élément ?</div></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('confirmDel')">Annuler</button>
+    <button class="btn btn-danger" id="delConfirmBtn"><i class="fas fa-trash"></i> Supprimer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — INSCRIRE EXCURSION ════ -->
+<div class="modal-overlay" id="modal-inscrireExcursion">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-user-plus"></i> Inscrire — <span></span></div>
+    <button class="modal-close" onclick="closeModal('inscrireExcursion')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="ins-exc-id">
+    <input type="hidden" id="ins-exc-exctype">
+    <div class="form-group" id="ins-exc-type-wrap">
+      <label class="form-label">Type de participant</label>
+      <select class="form-select" id="ins-exc-type" onchange="loadInscrirePersonnes()">
+        <option value="employe">Employé</option>
+        <option value="enfant">Enfant</option>
+        <option value="epouse">Épouse / Conjoint</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Personne</label>
+      <select class="form-select" id="ins-exc-personne"></select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('inscrireExcursion')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitInscrireExcursion()"><i class="fas fa-check"></i> Inscrire</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — PARTICIPANTS EXCURSION ════ -->
+<div class="modal-overlay" id="modal-participantsExcursion">
+<div class="modal modal-lg">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-users"></i> Participants — <span></span></div>
+    <button class="modal-close" onclick="closeModal('participantsExcursion')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="participantsExcursionBody"></div>
+</div></div>
+
+<!-- ════ MODAL — INSCRIRE ENFANT CAMP ════ -->
+<div class="modal-overlay" id="modal-inscrireCamp">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-child"></i> Inscrire — <span></span></div>
+    <button class="modal-close" onclick="closeModal('inscrireCamp')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="ins-camp-id">
+    <div class="form-group">
+      <label class="form-label">Sélectionner un enfant</label>
+      <select class="form-select" id="ins-camp-enfant" size="6" style="height:auto"></select>
+      <p id="ins-camp-info" style="font-size:11px;color:var(--ink4);margin-top:6px"></p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('inscrireCamp')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitInscrireCamp()"><i class="fas fa-check"></i> Inscrire</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — PARTICIPANTS CAMP ════ -->
+<div class="modal-overlay" id="modal-participantsCamp">
+<div class="modal modal-lg">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-users"></i> Participants — <span></span></div>
+    <button class="modal-close" onclick="closeModal('participantsCamp')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="participantsCampBody"></div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('participantsCamp')">Fermer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — GROUPE CAMP ════ -->
+<div class="modal-overlay" id="modal-groupeCamp">
+<div class="modal modal-lg">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-users"></i> Groupes — <span></span></div>
+    <button class="modal-close" onclick="closeModal('groupeCamp')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="groupeCampBody"></div>
+  <input type="hidden" id="grp-camp-id">
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('groupeCamp')">Fermer</button>
+    <button id="btn-add-groupe" class="btn btn-primary" onclick="openAddGroupe()"><i class="fas fa-plus"></i> Nouveau groupe</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD GROUPE ════ -->
+<div class="modal-overlay" id="modal-addGroupe">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-object-group"></i> Nouveau Groupe</div>
+    <button class="modal-close" onclick="closeModal('addGroupe')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="grp-id">
+    <div class="form-group"><label class="form-label">Nom du groupe</label>
+      <input class="form-input" id="grp-nom" placeholder="Groupe A"></div>
+    <div class="form-group"><label class="form-label">Genre</label>
+      <select class="form-select" id="grp-genre">
+        <option value="garcon">Garçons</option>
+        <option value="fille">Filles</option>
+        <option value="mixte">Mixte</option>
+      </select></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Âge min</label>
+        <input class="form-input" id="grp-age-min" type="number" min="4" max="17" placeholder="8"></div>
+      <div class="form-group"><label class="form-label">Âge max</label>
+        <input class="form-input" id="grp-age-max" type="number" min="4" max="17" placeholder="12"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Capacité</label>
+      <input class="form-input" id="grp-capacite" type="number" placeholder="20" value="20"></div>
+    <div class="form-group"><label class="form-label">Encadrant</label>
+      <select class="form-select" id="grp-encadrant-id">
+        <option value="">— Chargement… —</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addGroupe')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddGroupe()"><i class="fas fa-save"></i> Créer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — ADD ENCADRANT ════ -->
+<div class="modal-overlay" id="modal-addEncadrant">
+<div class="modal modal-sm">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-person-chalkboard"></i> Nouvel Encadrant</div>
+    <button class="modal-close" onclick="closeModal('addEncadrant')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="enc-id">
+    <div class="form-group"><label class="form-label">Nom complet</label>
+      <input class="form-input" id="enc-nom" placeholder="Prénom Nom"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Sexe</label>
+        <select class="form-select" id="enc-sexe">
+          <option value="Homme">Homme</option>
+          <option value="Femme">Femme</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Âge</label>
+        <input class="form-input" id="enc-age" type="number" min="18" max="70" placeholder="30"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Spécialité</label>
+      <input class="form-input" id="enc-specialite" placeholder="Sport, Animation, Sécurité…"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Téléphone</label>
+        <input class="form-input" id="enc-telephone" placeholder="06 00 00 00 00"></div>
+      <div class="form-group"><label class="form-label">Email</label>
+        <input class="form-input" id="enc-email" type="email" placeholder="enc@ocp.ma"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('addEncadrant')">Annuler</button>
+    <button class="btn btn-primary" onclick="submitAddEncadrant()"><i class="fas fa-save"></i> Enregistrer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — GROUPES ENCADRANT ════ -->
+<div class="modal-overlay" id="modal-groupesEncadrant">
+<div class="modal modal-lg">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-users"></i> Groupes — <span></span></div>
+    <button class="modal-close" onclick="closeModal('groupesEncadrant')"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" id="groupesEncadrantBody"></div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('groupesEncadrant')">Fermer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — PROGRAMME CAMP ════ -->
+<div class="modal-overlay" id="modal-programmeCamp">
+<div class="modal modal-lg">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-list-ul"></i> Programme — <span></span></div>
+    <button class="modal-close" onclick="closeModal('programmeCamp')"><i class="fas fa-times"></i></button>
+  </div>
+  <input type="hidden" id="prog-camp-id">
+  <input type="hidden" id="prog-camp-item-id">
+  <div id="prog-camp-add-form" class="prog-add-form">
+    <div class="prog-add-grid">
+      <input class="form-input" id="prog-camp-jour" placeholder="Jour (ex: Lundi 16 Juillet)">
+      <input class="form-input" id="prog-camp-heure" placeholder="Heure (ex: 09:00)">
+      <input class="form-input" id="prog-camp-activite" placeholder="Activité (ex: Randonnée)">
+      <input class="form-input" id="prog-camp-desc" placeholder="Description / détails optionnels">
+    </div>
+    <div class="prog-add-actions">
+      <button class="btn btn-primary" id="prog-camp-submit-btn" onclick="submitAddProgrammeCamp()"><i class="fas fa-plus"></i> Ajouter</button>
+      <button class="btn btn-secondary" id="prog-camp-cancel-btn" onclick="cancelEditProgrammeCamp()" style="display:none"><i class="fas fa-times"></i> Annuler</button>
+    </div>
+  </div>
+  <div class="modal-body" id="programmeCampBody"></div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('programmeCamp')">Fermer</button>
+  </div>
+</div></div>
+
+<!-- ════ MODAL — PROGRAMME EXCURSION ════ -->
+<div class="modal-overlay" id="modal-programmeExcursion">
+<div class="modal modal-lg">
+  <div class="modal-header">
+    <div class="modal-title"><i class="fas fa-list-ul"></i> Programme — <span></span></div>
+    <button class="modal-close" onclick="closeModal('programmeExcursion')"><i class="fas fa-times"></i></button>
+  </div>
+  <input type="hidden" id="prog-exc-id">
+  <input type="hidden" id="prog-exc-item-id">
+  <div id="prog-exc-add-form" class="prog-add-form">
+    <div class="prog-add-grid prog-add-grid--exc">
+      <input class="form-input" id="prog-exc-heure" placeholder="Heure (ex: 09:00)">
+      <input class="form-input" id="prog-exc-activite" placeholder="Activité (ex: Visite du musée)">
+      <input class="form-input" id="prog-exc-desc" placeholder="Description / détails optionnels">
+    </div>
+    <div class="prog-add-actions">
+      <button class="btn btn-primary" id="prog-exc-submit-btn" onclick="submitAddProgrammeExcursion()"><i class="fas fa-plus"></i> Ajouter</button>
+      <button class="btn btn-secondary" id="prog-exc-cancel-btn" onclick="cancelEditProgrammeExcursion()" style="display:none"><i class="fas fa-times"></i> Annuler</button>
+    </div>
+  </div>
+  <div class="modal-body" id="programmeExcursionBody"></div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeModal('programmeExcursion')">Fermer</button>
+  </div>
+</div></div>
+
+<!-- ════════════════════════════════════════════════════════
+     SCRIPTS CLASSIQUES — ordre : config → api → app → modules → auth
+     ✅ PAS de type="module" = fonctions accessibles globalement (window.*)
+     ✅ onclick="handleLogin()" etc. fonctionnent correctement
+════════════════════════════════════════════════════════ -->
+<script src="{{ url_for('static', filename='js/config.js') }}"></script>
+<script src="{{ url_for('static', filename='js/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/users.js') }}"></script>
+<script src="{{ url_for('static', filename='js/employes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/conjoints.js') }}"></script>
+<script src="{{ url_for('static', filename='js/enfants.js') }}"></script>
+<script src="{{ url_for('static', filename='js/excursions.js') }}"></script>
+<script src="{{ url_for('static', filename='js/camps.js') }}"></script>
+<script src="{{ url_for('static', filename='js/encadrants.js') }}"></script>
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+
+</body>
+</html>
+
