@@ -53,8 +53,8 @@ python app.py
 
 ## Notes
 
-This project was built collaboratively with a fellow intern — we worked side-by-side on every part of the system rather than splitting tasks by feature.
+This project was built collaboratively with a fellow intern we worked side-by-side on every part of the system rather than splitting tasks by feature.
 
 ## Author
 
-**Omar El Badri** — Computer Engineering student
+**Omar El Badri** Computer Engineering student
