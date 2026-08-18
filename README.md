@@ -22,6 +22,7 @@ Employees at OCP Group are entitled to a range of family-oriented social benefit
 
 ## Project structure
 
+```
 ├── app.py # App entry point, blueprint registration, DB schema init
 ├── models/
 │ ├── db.py # MySQL connection pooling
@@ -37,6 +38,7 @@ Employees at OCP Group are entitled to a range of family-oriented social benefit
 │ └── encadrants.py # Camp supervisors
 ├── static/ # CSS, JS, images
 └── templates/ # HTML templates
+```
 
 ## Setup
 
